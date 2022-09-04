@@ -1,11 +1,13 @@
 {
   "name": "counting-bot",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "A simple counting bot made in Typescript and powered by Discord.js v14.3.0!",
   "main": "./dist/index.js",
   "scripts": {
     "start": "node .",
     "start:build": "tsc && node .",
+    "deploy:guild": "tsc && node ./dist/deploy.js --guild",
+    "deploy:global": "tsc && node ./dist/deploy.js --global",
     "dev": "nodemon ./src/index.ts",
     "host": "tsc && pm2 start . --name Counting-Bot",
     "postinstall": "tsc"
@@ -14,6 +16,8 @@
   "license": "GPL-3.0",
   "dependencies": {
     "@discordjs/builders": "^1.2.0",
+    "@discordjs/rest": "^1.1.0",
+    "discord-api-types": "^0.37.5",
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.2",
     "nodemon": "^2.0.19",
