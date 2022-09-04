@@ -1,28 +1,19 @@
-import { Counting } from './client/Client';
-import { Intents } from 'discord.js';
+import CB from './client';
+import 'dotenv/config';
 
-export const client = new Counting({
-    intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS],
-    allowedMentions: { parse: ['users'] },
+export const client = new CB({
+    intents: ['Guilds', 'GuildMessages', 'GuildMembers', 'MessageContent'],
+    allowedMentions: { parse: ['users'] }
 });
 
-for (const event of Object.values(client.events)) {
-    // @ts-ignore
-    client.on(event.name, (...args: any) => event.execute([...args], client));
+import events from './events';
+for (const event of events) {
+    client.on(event.name, (...args) => event.execute([...args], client));
 }
 
-import * as Commands from './commands/Commands';
-for (const command of Object.values(Commands)) {
+import commands from './commands';
+for (const command of commands) {
     client.commands.set(command.name, command);
 }
 
-import fs from 'fs';
-client.on('ready', () => {
-    console.log('Ready!');
-
-    if (!fs.existsSync('./CountData')) {
-        fs.mkdirSync('./CountData');
-    }
-})
-
-client.login(client.config.token);
+client.login(process.env.TOKEN);
